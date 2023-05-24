@@ -1,26 +1,27 @@
 "use client";
 
 import React from "react";
-import { FormInput, Submit } from "@/components";
+import { FormInput, ServerValidationErrors, Submit } from "@/components";
 import clsx from "clsx";
 import { Formik, Form } from "formik";
 import {
 	ResetPasswordPayloadSchema,
 	ResetPasswordPayload,
-	SentPasswordResetCodePayload,
 	SentPasswordResetCodePayloadSchema,
 } from "@/requests/Auth/ResetPassword/schema.resetPassword";
 import useSentPasswordResetCode from "@/requests/Auth/ResetPassword/useSentPasswordResetCode";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { HiEnvelope } from "react-icons/hi2";
+import { HiEnvelope, HiLockClosed } from "react-icons/hi2";
 import { motion } from "framer-motion";
 import { framerMotionVariants } from "@/utils/helpers";
-import { data } from "autoprefixer";
-
-// type ValidationType<T= ResetPasswordPayload | SentPasswordResetCodePayload> = T
+import useResetPassword from "@/requests/Auth/ResetPassword/useResetPassword";
+import useServerErrors from "@/store/useServerErrors";
+import { MdPassword } from "react-icons/md";
 
 const ResetPassword = () => {
 	const [showAllFields, setShowAllFields] = React.useState<boolean>(false);
+
+	const { showServerErrors } = useServerErrors();
 
 	const initialValues: ResetPasswordPayload = {
 		email: "",
@@ -29,12 +30,21 @@ const ResetPassword = () => {
 		token: "",
 	};
 
-	const { mutateAsync, isLoading: isSendingCode } =
-		useSentPasswordResetCode(setShowAllFields);
+	const {
+		mutateAsync: mutateSentCode,
+		isLoading: isSendingCode,
+		error: resetCodeError,
+	} = useSentPasswordResetCode(setShowAllFields);
+
+	const {
+		mutateAsync: mutateResetPassword,
+		isLoading: isResettingPassword,
+		error: passwordResetError,
+	} = useResetPassword(setShowAllFields);
 
 	const handleSubmit = async (values: ResetPasswordPayload) => {
-		if (!showAllFields) await mutateAsync({ email: values.email });
-		else console.log("ok");
+		if (!showAllFields) await mutateSentCode({ email: values.email });
+		else await mutateResetPassword({ ...values, password_confirmation: values.password });
 	};
 
 	return (
@@ -55,13 +65,24 @@ const ResetPassword = () => {
 				});
 
 				return (
-					<Form className={clsx(["pb-3 px-6 pt-2", "space-y-3", "min-h-[300px]"])}>
+					<Form className={clsx(["pb-3 px-6", "space-y-4", "min-h-[300px]"])}>
 						<motion.div
 							variants={framerMotionVariants.showFormVariant}
 							initial="initial"
 							animate="animate"
 							className="space-y-3"
 						>
+							{showServerErrors && (
+								<ServerValidationErrors
+									message={
+										(resetCodeError ?? passwordResetError)?.response?.data?.message
+									}
+									payload={
+										(resetCodeError ?? passwordResetError)?.response?.data?.payload
+									}
+								/>
+							)}
+
 							<FormInput
 								placeholder="Email address"
 								helperText="Enter email address"
@@ -87,17 +108,22 @@ const ResetPassword = () => {
 										placeholder="Password reset code"
 										helperText="Enter password reset code"
 										{...handleInput("token")}
-										icon={HiEnvelope}
+										icon={MdPassword}
 										required
 									/>
 
 									<FormInput
+										type="password"
 										placeholder="New password"
 										helperText="Enter new password"
 										{...handleInput("password")}
-										icon={HiEnvelope}
+										icon={HiLockClosed}
 										required
 									/>
+
+									<Submit fullWidth isLoading={isResettingPassword}>
+										Reset Password
+									</Submit>
 								</motion.div>
 							)}
 						</motion.div>

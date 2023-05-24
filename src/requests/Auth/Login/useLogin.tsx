@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import useServerErrors from "@/store/useServerErrors";
 import { AxiosError } from "axios";
+import { ServerError } from "@/types/global";
 
 const useLogin = () => {
 	const request = useRequest();
@@ -34,7 +35,7 @@ const useLogin = () => {
 			storeLoginStatus(true);
 			router.push("/portal/dashboard");
 		},
-		onError: (error: AxiosError) => setShowServerErrors(true),
+		onError: (error: AxiosError<ServerError>) => setShowServerErrors(true),
 	});
 };
 

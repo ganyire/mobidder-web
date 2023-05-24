@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import { BsDashSquare } from "react-icons/bs";
 
 interface FormInputProps {
 	error?: string;
@@ -89,7 +90,13 @@ const FormInput: React.FC<FormInputProps> = (props) => {
 					if (type === "password") {
 						return (
 							<Input.Password
-								prefix={Icon ? <Icon className="text-accent-1/30" size={25} /> : null}
+								prefix={
+									Icon ? (
+										<Icon className="text-accent-1/30" size={25} />
+									) : (
+										<BsDashSquare size={25} className="text-accent-1/30" />
+									)
+								}
 								value={value}
 								rootClassName={rootClassName}
 								className={className}
@@ -150,7 +157,13 @@ const FormInput: React.FC<FormInputProps> = (props) => {
 							value={value}
 							showCount
 							maxLength={maxLength || 80}
-							prefix={Icon ? <Icon className="text-accent-1/30" size={25} /> : null}
+							prefix={
+								Icon ? (
+									<Icon className="text-accent-1/30" size={25} />
+								) : (
+									<BsDashSquare size={25} className="text-accent-1/30" />
+								)
+							}
 							rootClassName={rootClassName}
 							className={className}
 							onChange={onChange}

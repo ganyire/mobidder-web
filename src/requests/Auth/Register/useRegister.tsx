@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { RegisterPayload } from "./schema.register";
 import useServerErrors from "@/store/useServerErrors";
 import { AxiosError } from "axios";
+import { ServerError } from "@/types/global";
 
 export const useRegister = () => {
 	const request = useRequest();
@@ -34,6 +35,6 @@ export const useRegister = () => {
 			storeLoginStatus(true);
 			router.push("/portal/dashboard");
 		},
-		onError: (error: AxiosError) => setShowServerErrors(true),
+		onError: (error: AxiosError<ServerError>) => setShowServerErrors(true),
 	});
 };
