@@ -21,8 +21,7 @@ const useAuthStore = create<AuthState>()(
 			storeProfile: (profile: User) => set({ profile }),
 			storeToken: (token: string) => set({ token }),
 			storeLoginStatus: (status: boolean) => set({ loggedIn: status }),
-			restoreFactory: () =>
-				set({ profile: {} as User, token: "", loggedIn: false }),
+			restoreFactory: () => set({ profile: {} as User, token: "", loggedIn: false }),
 		}),
 		{
 			name: "auth-storage",

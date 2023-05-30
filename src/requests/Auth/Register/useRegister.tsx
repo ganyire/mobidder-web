@@ -17,13 +17,15 @@ export const useRegister = () => {
 
 	const { storeToken, storeProfile, storeLoginStatus } = useAuthStore();
 
-	const mutate = async (payload: RegisterPayload) => {
+	const mutate = async (
+		payload: RegisterPayload
+	): Promise<{ profile: User; token: string }> => {
 		setShowServerErrors(false);
 
 		const response = await request.post("auth/register", payload);
 		return {
-			profile: response?.data?.payload as User,
-			token: response?.data?.payload?.token as string,
+			profile: response?.data?.payload,
+			token: response?.data?.payload?.token,
 		};
 	};
 

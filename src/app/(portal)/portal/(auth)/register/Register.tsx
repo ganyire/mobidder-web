@@ -119,18 +119,14 @@ const Register = () => {
 				return (
 					<Form
 						className={clsx([
-							"pb-3 px-6",
+							"pb-3",
 							"space-y-4 ",
 							"border-t-2 border-gray-400",
 							"min-h-[400px]",
 						])}
 					>
 						<div
-							className={clsx([
-								"flex justify-center",
-								"items-center gap-4",
-								"px-6 -mt-10",
-							])}
+							className={clsx(["flex justify-center", "items-center gap-4", "-mt-10"])}
 						>
 							{actions.map((action) => (
 								<button
@@ -166,8 +162,7 @@ const Register = () => {
 								variants={framerMotionVariants.showFormVariant}
 								initial="initial"
 								animate="animate"
-								className="space-y-3 account"
-								key="account-form"
+								className="space-y-3"
 							>
 								<FormInput
 									placeholder="Your name"
@@ -195,20 +190,20 @@ const Register = () => {
 								/>
 
 								<FormInput
-									type="radio"
-									placeholder="I am signing up as"
-									helperText="Select your role"
-									{...handleInput("role")}
-									options={roleOptions}
-									required
-								/>
-
-								<FormInput
 									type="mobile"
 									placeholder="Mobile number"
 									helperText="Enter mobile number"
 									{...handleInput("phone")}
 									icon={HiEnvelope}
+								/>
+
+								<FormInput
+									type="radio"
+									placeholder="Signing up as"
+									helperText="Select your role"
+									{...handleInput("role")}
+									options={roleOptions}
+									required
 								/>
 
 								<div className="mt-4 flex justify-end px-4">
@@ -225,8 +220,7 @@ const Register = () => {
 								variants={framerMotionVariants.showFormVariant}
 								initial="initial"
 								animate="animate"
-								className="mt-8 space-y-3 address"
-								key="address-form"
+								className="mt-8 space-y-3"
 							>
 								<FormInput
 									placeholder="Street address"

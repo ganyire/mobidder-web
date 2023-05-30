@@ -1,14 +1,11 @@
 import React from "react";
 import clsx from "clsx";
-import Menu from "./(layout-components)/Menu";
+import Menu from "./Menu";
+import Header from "./Header";
 
 interface DashboardLayoutProps {
 	children: React.ReactNode;
 }
-
-export const metadata = {
-	description: "Dashboard",
-};
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
 	const { children } = props;
@@ -21,12 +18,12 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
 				"text-secondary-dense text-sm",
 			])}
 		>
-			<div
-				className={clsx(["min-h-screen", "flex items-center gap-4", "mx-[150px] py-20"])}
-			>
+			<div className={clsx(["min-h-screen", "flex gap-6", "mx-[150px] py-20"])}>
 				<Menu />
 
-				<div></div>
+				<div className="flex-1">
+					<Header />
+				</div>
 			</div>
 		</main>
 	);

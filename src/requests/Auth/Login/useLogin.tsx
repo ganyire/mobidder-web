@@ -8,6 +8,11 @@ import useServerErrors from "@/store/useServerErrors";
 import { AxiosError } from "axios";
 import { ServerError } from "@/types/global";
 
+type LoginResponse = {
+	profile: User;
+	token: string;
+};
+
 const useLogin = () => {
 	const request = useRequest();
 
@@ -17,13 +22,13 @@ const useLogin = () => {
 
 	const { storeToken, storeProfile, storeLoginStatus } = useAuthStore();
 
-	const mutate = async (payload: LoginPayload) => {
+	const mutate = async (payload: LoginPayload): Promise<LoginResponse> => {
 		setShowServerErrors(false);
 
 		const response = await request.post("auth/login", payload);
 		return {
-			profile: response?.data?.payload as User,
-			token: response?.data?.payload?.token as string,
+			profile: response?.data?.payload,
+			token: response?.data?.payload?.token,
 		};
 	};
 

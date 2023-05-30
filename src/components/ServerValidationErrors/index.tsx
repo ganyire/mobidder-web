@@ -7,10 +7,6 @@ import { FiX } from "react-icons/fi";
 import clsx from "clsx";
 import useServerErrors from "@/store/useServerErrors";
 
-interface ServerValidationErrorsProps {
-	errorPayload?: Pick<ServerError, "payload">;
-}
-
 const ServerValidationErrors: React.FC<ServerError> = (props) => {
 	const { message, payload } = props;
 

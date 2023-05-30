@@ -48,15 +48,17 @@ const FormInput: React.FC<FormInputProps> = (props) => {
 		required,
 		onPhoneChange,
 		name,
-		width,
+		width = 400,
 	} = props;
 
 	const placeholderText = placeholder + `${required ? " *" : ""}`;
 
 	const radioDefaultValue = options?.find((option) => option.defaultValue)?.value || "";
 
+	const fieldWidth = `w-[${width}px]`;
+
 	const className = clsx([
-		width ? `w-[${width}px]` : "w-[350px]",
+		fieldWidth,
 		"rounded-none",
 		"h-[55px]",
 		"focus:!ring-gray-200",
@@ -126,14 +128,11 @@ const FormInput: React.FC<FormInputProps> = (props) => {
 					if (type === "radio") {
 						return (
 							<div
-								className={clsx([
-									width ? `w-[${width}px]` : "w-[350px]",
-									"flex items-center justify-between gap-2",
-								])}
+								className={clsx([fieldWidth, "flex items-center justify-between gap-2"])}
 							>
-								<p className="flex flex-col">
+								<p className="flex flex-col justify-center text-sm">
 									{placeholder}
-									<span className="text-sm">
+									<span>
 										({options?.find((option) => option.value === value)?.label})
 									</span>
 								</p>
